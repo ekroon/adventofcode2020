@@ -1,0 +1,20 @@
+[package]
+name = "adventofcode2020"
+version = "0.1.0"
+authors = ["Erwin Kroon <erwin@k3n.nl>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+bench = false
+
+[[bin]]
+name = "main"
+path = "src/main.rs"
+
+[dependencies]
+aoc-runner = "0.3.0"
+aoc-runner-derive = "0.3.0"
+itertools = "0.9.0"
+

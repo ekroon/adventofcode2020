@@ -2,5 +2,6 @@
 
 ## Running
 
-Install [Rust](https://www.rust-lang.org/tools/install)
-Install [Cargo AOC](https://github.com/gobanos/cargo-aoc) and `cargo aoc`
+* Install [Rust](https://www.rust-lang.org/tools/install) 
+* Install [Cargo AOC](https://github.com/gobanos/cargo-aoc) 
+* `cargo aoc`

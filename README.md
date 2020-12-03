@@ -1,4 +1,4 @@
-# Advent of code 2020 in Rust
+# [Advent of code 2020 in Rust](https://github.com/ekroon/adventofcode2020/)
 
 ## Running
 

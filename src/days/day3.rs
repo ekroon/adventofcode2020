@@ -1,22 +1,24 @@
 use aoc_runner_derive::aoc;
 use aoc_runner_derive::aoc_generator;
-use std::ops::Add;
+
+type ParsedOutput = Vec<Vec<bool>>;
+type ParsedInput<'a> = &'a [Vec<bool>];
 
 #[aoc_generator(day3)]
-pub fn generate(input: &str) -> Vec<Vec<bool>> {
+pub fn generate(input: &str) -> ParsedOutput {
     input
         .lines()
         .map(|s| s.chars().map(|c| c == '#').collect::<Vec<_>>())
-        .collect()
+        .collect::<Vec<_>>()
 }
 
-fn solve(input: &[Vec<bool>], (right, down): (usize, usize)) -> Option<usize> {
+fn solve(input: ParsedInput, (right, down): (usize, usize)) -> Option<usize> {
     let line_length = input.first()?.len();
     let mut x = 0;
     let mut trees = 0;
     for line in input.iter().step_by(down) {
         if *line.get(x)? {
-            trees = trees.add(1);
+            trees += 1;
         }
         x = (x + right) % line_length
     }
@@ -24,12 +26,12 @@ fn solve(input: &[Vec<bool>], (right, down): (usize, usize)) -> Option<usize> {
 }
 
 #[aoc(day3, part1)]
-pub fn part1(input: &[Vec<bool>]) -> Option<usize> {
+pub fn part1(input: ParsedInput) -> Option<usize> {
     solve(input, (3, 1))
 }
 
 #[aoc(day3, part2)]
-pub fn part2(input: &[Vec<bool>]) -> Option<usize> {
+pub fn part2(input: ParsedInput) -> Option<usize> {
     let mut result = 1;
     for step in &[(1usize, 1usize), (3, 1), (5, 1), (7, 1), (1, 2)] {
         result *= solve(input, *step)?;
@@ -38,10 +40,10 @@ pub fn part2(input: &[Vec<bool>]) -> Option<usize> {
 }
 
 #[aoc(day3, part2, wrong)]
-pub fn part2_wrong(input: &[Vec<bool>]) -> Option<i32> {
-    let mut result = 1i32;
+pub fn part2_wrong(input: ParsedInput) -> Option<u32> {
+    let mut result = 1u32;
     for step in &[(1usize, 1usize), (3, 1), (5, 1), (7, 1), (1, 2)] {
-        result *= solve(input, *step)? as i32;
+        result *= solve(input, *step)? as u32;
     }
     Some(result)
 }

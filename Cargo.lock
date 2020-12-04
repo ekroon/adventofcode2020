@@ -7,6 +7,8 @@ dependencies = [
  "aoc-runner",
  "aoc-runner-derive",
  "itertools",
+ "lazy_static",
+ "regex",
  "scan_fmt",
 ]
 

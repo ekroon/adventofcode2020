@@ -3,9 +3,6 @@ use lazy_static::lazy_static;
 use regex::Regex;
 use std::collections::HashMap;
 
-// pub fn validate_passport(passport: &HashMap<&str, &str>) -> bool {}
-// let mut required_keys = vec!["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"];
-
 pub fn parse(input: &str) -> Option<Vec<HashMap<&str, &str>>> {
     let mut passports: Vec<HashMap<&str, &str>> = vec![];
     let mut passport = HashMap::new();

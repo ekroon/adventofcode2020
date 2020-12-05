@@ -17,6 +17,17 @@ pub fn parse_ticket(line: &str) -> Seat {
     rstart * 8 + cstart
 }
 
+pub fn parse_ticket_alternative(line: &str) -> Seat {
+    let replaced = line
+        .chars()
+        .map(|c| match c {
+            'B' | 'R' => '1',
+            _ => '0',
+        })
+        .collect::<String>();
+    usize::from_str_radix(&replaced, 2).unwrap()
+}
+
 #[aoc(day5, part1)]
 pub fn part1(input: &str) -> Option<usize> {
     input.lines().map(parse_ticket).max()

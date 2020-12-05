@@ -19,7 +19,7 @@ pub fn parse_ticket(line: &str) -> Seat {
 
 #[aoc(day5, part1)]
 pub fn part1(input: &str) -> Option<usize> {
-    input.lines().take(1).map(parse_ticket).max()
+    input.lines().map(parse_ticket).max()
 }
 
 #[aoc(day5, part2)]

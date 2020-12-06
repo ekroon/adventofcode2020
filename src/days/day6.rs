@@ -32,7 +32,7 @@ pub fn part2(input: &str) -> Option<usize> {
             if i == 0 {
                 questions.extend(&person_questions);
             } else {
-                questions = questions.intersection(&person_questions).copied().collect();
+                questions.retain(|q| person_questions.contains(q));
             }
             person_questions.clear();
         }

@@ -7,7 +7,7 @@ pub struct Bag<'a> {
     color: &'a str,
 }
 
-const shiny_gold: Bag = Bag {
+const SHINY_GOLD: Bag = Bag {
     prefix: "shiny",
     color: "gold",
 };
@@ -59,7 +59,7 @@ pub fn part1(input: &str) -> Option<usize> {
 
     let mut queue = VecDeque::new();
     let mut seen_bags = HashSet::new();
-    queue.push_back(shiny_gold);
+    queue.push_back(SHINY_GOLD);
     while let Some(bag) = queue.pop_front() {
         if seen_bags.insert(bag) {
             if let Some(bags) = parsed.get(&bag) {
@@ -81,7 +81,7 @@ pub fn part2(input: &str) -> Option<i32> {
 
     let mut queue = VecDeque::new();
     let mut count = 0;
-    queue.push_back((shiny_gold, 1));
+    queue.push_back((SHINY_GOLD, 1));
     while let Some((bag, num)) = queue.pop_front() {
         count += num;
         if let Some(to) = parsed.get(&bag) {

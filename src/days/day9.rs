@@ -20,7 +20,7 @@ pub fn part1(input: &str) -> Option<usize> {
             if i < PREAMBLE {
                 acc.push_back(num);
                 Ok(acc)
-            } else if acc.iter().tuple_combinations().any(|(a, b)| *a + *b == num) {
+            } else if acc.iter().any(|&v| acc.contains(&(num - v))) {
                 acc.pop_front();
                 acc.push_back(num);
                 Ok(acc)

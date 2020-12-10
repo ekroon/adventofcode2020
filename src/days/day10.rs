@@ -23,7 +23,6 @@ pub fn part1(input: &str) -> Option<usize> {
         acc
     });
 
-    println!("{:?}", result);
     Some(result.0 * result.2)
 }
 
@@ -38,10 +37,10 @@ pub fn part2(input: &str) -> Option<usize> {
         match (pair[1] - pair[0], pair[2] - pair[1]) {
             (1, 1) => (result, current + 1),
             _ => match current {
-                0 => (result, 0),
-                1 => (result * 2, 0),
-                2 => (result * 4, 0),
-                3 => (result * 7, 0),
+                0 => (result, 0),     // nothing to pick
+                1 => (result * 2, 0), // (1 pick 0) + (1 pick 1)
+                2 => (result * 4, 0), // (2 pick 0) + (2 pick 1) + (2 pick 2)
+                3 => (result * 7, 0), // (3 pick 1) + (3 pick 2) + (3 pick 3)
                 _ => unreachable!(),
             },
         }

@@ -62,13 +62,13 @@ pub fn part2_raymond(input: &str) -> Option<usize> {
     let result = parsed
         .iter()
         .enumerate()
-        .fold(paths, |mut acc, (index, &jolt)| {
+        .fold(paths, |mut paths, (index, &jolt)| {
             parsed[index + 1..]
                 .iter()
                 .enumerate()
                 .take_while(|(_, &jolt2)| jolt2 <= jolt + 3)
-                .for_each(|(index2, _)| acc[index + 1 + index2] += acc[index]);
-            acc
+                .for_each(|(index2, _)| paths[index + 1 + index2] += paths[index]);
+            paths
         });
 
     Some(*result.last().unwrap())

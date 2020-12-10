@@ -48,3 +48,28 @@ pub fn part2(input: &str) -> Option<usize> {
 
     Some(result.0)
 }
+
+#[aoc(day10, part2, raymond)]
+pub fn part2_raymond(input: &str) -> Option<usize> {
+    let mut parsed = parse(input);
+    parsed.push(0);
+    parsed.sort_unstable();
+    let max = { parsed.last()? + 3 };
+    parsed.push(max);
+
+    let mut paths = vec![0usize; parsed.len()];
+    paths[0] = 1;
+    let result = parsed
+        .iter()
+        .enumerate()
+        .fold(paths, |mut acc, (index, &jolt)| {
+            parsed[index + 1..]
+                .iter()
+                .enumerate()
+                .take_while(|(_, &jolt2)| jolt2 <= jolt + 3)
+                .for_each(|(index2, _)| acc[index + 1 + index2] += acc[index]);
+            acc
+        });
+
+    Some(*result.last().unwrap())
+}

@@ -36,7 +36,7 @@ fn parse(input: &str) -> Option<Vec<Vec<Square>>> {
     )
 }
 
-fn count_full_neighbours(plan: &Vec<Vec<Square>>, x: usize, y: usize) -> usize {
+fn count_full_neighbours(plan: &[Vec<Square>], x: usize, y: usize) -> usize {
     let mut count = 0;
     for (y1, x1) in &DIRECTIONS {
         if let Some(line) = plan.get((y as isize + y1) as usize) {
@@ -50,7 +50,7 @@ fn count_full_neighbours(plan: &Vec<Vec<Square>>, x: usize, y: usize) -> usize {
     count
 }
 
-fn count_full_neighbours_part2(plan: &Vec<Vec<Square>>, x: usize, y: usize) -> usize {
+fn count_full_neighbours_part2(plan: &[Vec<Square>], x: usize, y: usize) -> usize {
     let mut count: usize = 0;
     for (y1, x1) in &DIRECTIONS {
         let (mut x, mut y) = (x, y);

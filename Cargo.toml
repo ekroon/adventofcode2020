@@ -21,6 +21,7 @@ aoc-runner = "0.3.0"
 aoc-runner-derive = "0.3.0"
 itertools = "0.9.0"
 lazy_static = "1.4.0"
+lexical = "5.2.0"
 regex = "1.4.2"
 scan_fmt = "0.2.5"
 

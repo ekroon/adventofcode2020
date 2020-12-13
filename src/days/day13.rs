@@ -34,7 +34,7 @@ pub fn part2(input: &str) -> Option<usize> {
         .enumerate()
         .filter_map(|s| {
             if let Ok(n) = s.1.parse::<usize>() {
-                (s.0 + 1, n).into() // + 1 to prevent extra modulo on line 50
+                (s.0, n).into()
             } else {
                 None
             }
@@ -44,10 +44,10 @@ pub fn part2(input: &str) -> Option<usize> {
 
     let (index, id) = bus_ids.next().unwrap();
     let mut step_size = id;
-    let mut start_at = id - (index % id);
+    let mut start_at = id - index;
     for (index, id) in bus_ids {
         for n in (start_at..).step_by(step_size) {
-            if n % id == id - (index % id) {
+            if (n + index) % id == 0 {
                 step_size *= id;
                 start_at = n;
                 break;

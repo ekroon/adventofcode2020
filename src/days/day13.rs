@@ -11,16 +11,16 @@ pub fn part1(input: &str) -> Option<usize> {
         .split(',')
         .flat_map(&str::parse)
         .collect::<Vec<usize>>();
-    let mut wait = usize::MAX;
+    let mut min_wait = usize::MAX;
     let mut pick = 0usize;
     for id in bus_ids {
-        let w = id - (earliest_depart % id);
-        if w < earliest_depart {
-            wait = w;
+        let wait = id - (earliest_depart % id);
+        if wait < min_wait {
+            min_wait = wait;
             pick = id;
         }
     }
-    Some(pick * wait)
+    Some(pick * min_wait)
 }
 
 #[aoc(day13, part2)]

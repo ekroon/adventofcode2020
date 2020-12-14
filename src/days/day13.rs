@@ -1,6 +1,7 @@
 use aoc_runner_derive::aoc;
 use itertools::Itertools;
 use lexical::parse;
+use ring_algorithm::chinese_remainder_theorem;
 
 #[aoc(day13, part1)]
 pub fn part1(input: &str) -> Option<usize> {
@@ -57,4 +58,31 @@ pub fn part2(input: &str) -> Option<usize> {
     }
 
     Some(start_at)
+}
+
+#[aoc(day13, part2, mod_inverse)]
+pub fn part2_mod_inverse(input: &str) -> Option<isize> {
+    let mut bytes = input.as_bytes().split(|b| *b == b'\n');
+    bytes.next(); // drop first
+    let bus_ids = bytes
+        .next()
+        .unwrap()
+        .split(|b| *b == b',')
+        .enumerate()
+        .filter_map::<(usize, usize), _>(|s| {
+            if let Ok(n) = parse(s.1) {
+                (n - s.0 % n, n).into()
+            } else {
+                None
+            }
+        });
+
+    let (v1, v2) = bus_ids.fold((vec![], vec![]), |(mut v1, mut v2), (index, bus_id)| {
+        v1.push(index as isize);
+        v2.push(bus_id as isize);
+        (v1, v2)
+    });
+
+    let ans = chinese_remainder_theorem::<isize>(&v1, &v2).unwrap();
+    Some(ans)
 }

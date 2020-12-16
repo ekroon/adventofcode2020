@@ -1,123 +1,118 @@
-use crate::utils;
 use aoc_runner_derive::aoc;
 use itertools::Itertools;
-use serde_scan::scan;
-use utils::clamp;
+use std::collections::{HashMap, HashSet};
+use std::ops::Add;
 
-type Parsed<'a> = (
-    Vec<&'a str>,
-    Vec<(usize, usize, usize, usize)>,
-    Vec<usize>,
-    Vec<Vec<usize>>,
-);
+#[aoc(day16, part1)]
+pub fn part1(input: &str) -> usize {
+    let lines = input.lines().collect_vec();
+    let mut parts = lines.split(|s| s.trim().is_empty());
 
-pub fn parse(input: &str) -> Parsed {
-    let mut names = vec![];
-    let mut ranges = vec![];
-    let mut ticket = vec![];
-    let mut tickets = vec![];
-    let mut part = 0;
-    let mut lines = input.lines();
-    while let Some(line) = lines.next() {
-        if line.trim().is_empty() {
-            lines.next(); //skip header
-            part += 1;
-            continue;
-        }
-        match part {
-            0 => {
-                let (name, a, b, c, d): (&str, usize, usize, usize, usize) = scan!(
-                    "{}: {}-{} or {}-{}" <- line
-                )
-                .unwrap();
-                names.push(name);
-                ranges.push((a, b, c, d))
-            }
-            1 => ticket = line.split(',').map(|s| s.parse().unwrap()).collect(),
-            2 => {
-                tickets.push(line.split(',').map(|s| s.parse().unwrap()).collect());
-            }
-            _ => {}
-        }
+    let ranges = parts.next().unwrap();
+    let mut valid_nums = HashSet::<usize>::new();
+    for line in ranges {
+        line.split(':')
+            .dropping(1)
+            .flat_map(|l| l.trim().split(" or "))
+            .for_each(|range| {
+                let mut range = range.split('-');
+                let from = range.next().unwrap().parse::<usize>().unwrap();
+                let to = range.next().unwrap().parse::<usize>().unwrap();
+                for i in from..=to {
+                    valid_nums.insert(i);
+                }
+            })
     }
-    (names, ranges, ticket, tickets)
-}
 
-fn get_invalid_sum(ranges: &[(usize, usize, usize, usize)], ticket: &[usize]) -> Option<usize> {
-    let sum: usize = ticket
-        .iter()
-        .flat_map(|v| {
-            if !ranges
-                .iter()
-                .any(|(a, b, c, d)| clamp(v, a, b) == v || clamp(v, c, d) == v)
-            {
-                Some(v)
+    parts.next(); // drop own ticket
+
+    let invalid_nums = parts.next().unwrap().iter().dropping(1).flat_map(|ticket| {
+        ticket.trim().split(',').filter_map(|s| {
+            let parsed = s.parse::<usize>().unwrap();
+            if !valid_nums.contains(&parsed) {
+                Some(parsed)
             } else {
                 None
             }
         })
-        .sum();
+    });
 
-    if sum > 0 {
-        Some(sum)
-    } else {
-        None
-    }
-}
-
-#[aoc(day16, part1)]
-pub fn part1(input: &str) -> usize {
-    let (_, ranges, _, tickets) = parse(input);
-    tickets
-        .iter()
-        .flat_map(|t| get_invalid_sum(&ranges, t))
-        .sum()
+    invalid_nums.fold(0, Add::add)
 }
 
 #[aoc(day16, part2)]
 pub fn part2(input: &str) -> usize {
-    let (names, ranges, ticket, mut tickets) = parse(input);
-    tickets.retain(|t| get_invalid_sum(&ranges, t).is_none());
+    let lines = input.lines().collect_vec();
+    let mut parts = lines.split(|s| s.trim().is_empty());
 
-    let mut valid_ticket_pos_to_range = vec![vec![true; names.len()]; tickets[0].len()];
+    let mut all_field_names = Vec::new();
+    let ranges = parts.next().unwrap();
+    let mut valid_nums = HashMap::<_, Vec<&str>>::new();
+    for line in ranges {
+        let mut split = line.split(':');
 
-    for ticket in tickets {
-        for (i, v) in ticket.iter().enumerate() {
-            for (j, (a, b, c, d)) in ranges.iter().enumerate() {
-                if !(clamp(v, a, b) == v || clamp(v, c, d) == v) {
-                    valid_ticket_pos_to_range[i][j] = false;
-                }
-            }
-        }
-    }
+        let name = split.next().unwrap();
+        all_field_names.push(name);
 
-    let mut found = 0;
-    let mut sum = 1;
-    loop {
-        let (i, j) = valid_ticket_pos_to_range
-            .iter()
-            .enumerate()
-            .find_map(|(i, v)| {
-                let true_values = v.iter().enumerate().filter(|(_, v)| **v).collect_vec();
-                if true_values.len() == 1 {
-                    Some((i, true_values[0].0))
-                } else {
-                    None
+        split
+            .flat_map(|l| l.trim().split(" or "))
+            .for_each(|range| {
+                let mut range = range.split('-');
+                let from = range.next().unwrap().parse::<usize>().unwrap();
+                let to = range.next().unwrap().parse::<usize>().unwrap();
+
+                for i in from..=to {
+                    valid_nums.entry(i).or_default().push(name);
                 }
             })
+    }
+
+    let ticket = parts
+        .next()
+        .unwrap()
+        .iter()
+        .dropping(1) // header
+        .flat_map(|line| line.split(',').map(|n| n.parse().unwrap()))
+        .collect::<Vec<usize>>();
+
+    let acc = vec![all_field_names.clone(); ticket.len()];
+    let mut possible_field_names = parts
+        .next()
+        .unwrap()
+        .iter()
+        .dropping(1) // header
+        .filter_map(|t| {
+            let mut result = vec![];
+            for n in t.split(',').map(|s| s.parse::<usize>().unwrap()) {
+                if !valid_nums.contains_key(&n) {
+                    return None;
+                }
+                result.push(valid_nums.get(&n).unwrap());
+            }
+            Some(result)
+        })
+        .fold(acc, |mut acc, current_ticket| {
+            for (i, vec) in current_ticket.iter().enumerate() {
+                acc[i].retain(|v| vec.contains(v));
+            }
+            acc
+        });
+
+    let mut sum = 1;
+    for _ in 0..possible_field_names.len() {
+        let (index, current_one) = possible_field_names
+            .iter()
+            .enumerate()
+            .find(|s| s.1.len() == 1)
             .unwrap();
-
-        for column in &mut valid_ticket_pos_to_range {
-            column[j] = false;
+        let current_one = current_one.clone();
+        if current_one[0].starts_with("departure") {
+            sum *= ticket[index];
         }
-
-        found += 1;
-        if names[j].starts_with("departure") {
-            sum *= ticket[i]
-        }
-        if found == names.len() {
-            break;
+        for set in possible_field_names.iter_mut() {
+            set.retain(|v| !current_one.contains(v));
         }
     }
+
     sum
 }

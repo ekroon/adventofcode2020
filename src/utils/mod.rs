@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 pub fn clamp<T: Ord>(value: T, min: T, max: T) -> T {
     assert!(min <= max);
     if value < min {

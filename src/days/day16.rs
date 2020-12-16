@@ -76,8 +76,7 @@ pub fn part1(input: &str) -> usize {
 
 #[aoc(day16, part2)]
 pub fn part2(input: &str) -> usize {
-    let (names, ranges, ticket, tickets) = parse(input);
-    let mut tickets = tickets.clone();
+    let (names, ranges, ticket, mut tickets) = parse(input);
     tickets.retain(|t| get_invalid_sum(&ranges, t).is_none());
 
     let mut valid_ticket_pos_to_range = vec![vec![true; names.len()]; tickets[0].len()];
@@ -99,7 +98,7 @@ pub fn part2(input: &str) -> usize {
             .iter()
             .enumerate()
             .find_map(|(i, v)| {
-                let true_values = v.iter().enumerate().filter(|(j, v)| **v).collect_vec();
+                let true_values = v.iter().enumerate().filter(|(_, v)| **v).collect_vec();
                 if true_values.len() == 1 {
                     Some((i, true_values[0].0))
                 } else {

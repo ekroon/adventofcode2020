@@ -1,7 +1,7 @@
 use aoc_runner_derive::aoc;
 use aoc_runner_derive::aoc_generator;
 
-use scan_fmt::scan_fmt;
+use serde_scan::scan;
 
 // 8-10 t: ptckdjtsptlmzrktwcw
 const SCANLINE: &str = "{}-{} {}: {}";
@@ -11,7 +11,7 @@ pub fn generate(input: &str) -> Vec<(usize, usize, char, String)> {
     input
         .lines()
         .map(|l| {
-            let result = scan_fmt!(l, SCANLINE, usize, usize, char, String);
+            let result = scan!(SCANLINE <- l);
             result.unwrap()
         })
         .collect::<Vec<_>>()

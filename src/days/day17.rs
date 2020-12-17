@@ -3,6 +3,24 @@ use itertools::Itertools;
 
 type Pocket<'a> = &'a [Vec<Vec<bool>>];
 
+fn parse(input: &str) -> Vec<Vec<bool>> {
+    let parsed_state = input
+        .lines()
+        .map(|line| {
+            line.chars()
+                .map(|c| match c {
+                    '#' => true,
+                    '.' => false,
+                    _ => {
+                        unreachable!()
+                    }
+                })
+                .collect_vec()
+        })
+        .collect_vec();
+    parsed_state
+}
+
 fn count_neighbours(grid: Pocket, z: usize, y: usize, x: usize) -> usize {
     let mut neighbours = 0;
     for (z_, ys) in grid[z - 1..=z + 1].iter().enumerate() {
@@ -22,20 +40,7 @@ fn count_neighbours(grid: Pocket, z: usize, y: usize, x: usize) -> usize {
 pub fn part1(input: &str) -> usize {
     let size = 32usize;
     let mut pocket = vec![vec![vec![false; size]; size]; size];
-    let parsed_state = input
-        .lines()
-        .map(|line| {
-            line.chars()
-                .map(|c| match c {
-                    '#' => true,
-                    '.' => false,
-                    _ => {
-                        unreachable!()
-                    }
-                })
-                .collect_vec()
-        })
-        .collect_vec();
+    let parsed_state = parse(input);
     let dim_pocket = parsed_state.len();
 
     let mut start = size / 2 - dim_pocket / 2;
@@ -105,20 +110,7 @@ fn count_neighbours4(grid: Pocket4, w: usize, z: usize, y: usize, x: usize) -> u
 pub fn part2(input: &str) -> usize {
     let size = 32usize;
     let mut pocket = vec![vec![vec![vec![false; size]; size]; size]; size];
-    let parsed_state = input
-        .lines()
-        .map(|line| {
-            line.chars()
-                .map(|c| match c {
-                    '#' => true,
-                    '.' => false,
-                    _ => {
-                        unreachable!()
-                    }
-                })
-                .collect_vec()
-        })
-        .collect_vec();
+    let parsed_state = parse(input);
     let dim_pocket = parsed_state.len();
 
     let mut start = size / 2 - dim_pocket / 2;

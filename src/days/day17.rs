@@ -46,6 +46,9 @@ pub fn part1(input: &str) -> usize {
     let mut start = size / 2 - dim_pocket / 2;
     let mut end = size / 2 + dim_pocket / 2;
 
+    let mut small_start = size / 2;
+    let mut small_end = size / 2;
+
     parsed_state.into_iter().enumerate().for_each(|(y, vec)| {
         vec.into_iter().enumerate().for_each(|(x, b)| {
             pocket[start + dim_pocket / 2][y + start][x + start] = b;
@@ -63,7 +66,9 @@ pub fn part1(input: &str) -> usize {
         cycles += 1;
         start -= 1;
         end += 1;
-        for z in start..=end {
+        small_start -= 1;
+        small_end += 1;
+        for z in small_start..=small_end {
             for y in start..=end {
                 for x in start..=end {
                     let current = pocket[z][y][x];
@@ -116,6 +121,9 @@ pub fn part2(input: &str) -> usize {
     let mut start = size / 2 - dim_pocket / 2;
     let mut end = size / 2 + dim_pocket / 2;
 
+    let mut small_start = size / 2;
+    let mut small_end = size / 2;
+
     parsed_state.into_iter().enumerate().for_each(|(y, vec)| {
         vec.into_iter().enumerate().for_each(|(x, b)| {
             pocket[start + dim_pocket / 2][start + dim_pocket / 2][y + start][x + start] = b;
@@ -133,8 +141,10 @@ pub fn part2(input: &str) -> usize {
         cycles += 1;
         start -= 1;
         end += 1;
-        for w in start..=end {
-            for z in start..=end {
+        small_start -= 1;
+        small_end += 1;
+        for w in small_start..=small_end {
+            for z in small_start..=small_end {
                 for y in start..=end {
                     for x in start..=end {
                         let current = pocket[w][z][y][x];

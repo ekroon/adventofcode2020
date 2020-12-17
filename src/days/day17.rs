@@ -46,9 +46,9 @@ pub fn part1(input: &str) -> usize {
     let mut start = size / 2 - dim_pocket / 2;
     let mut end = size / 2 + dim_pocket / 2;
 
-    parsed_state.into_iter().enumerate().for_each(|(x, vec)| {
-        vec.into_iter().enumerate().for_each(|(y, b)| {
-            pocket[start + dim_pocket / 2][x + start][y + start] = b;
+    parsed_state.into_iter().enumerate().for_each(|(y, vec)| {
+        vec.into_iter().enumerate().for_each(|(x, b)| {
+            pocket[start + dim_pocket / 2][y + start][x + start] = b;
         })
     });
 
@@ -116,9 +116,9 @@ pub fn part2(input: &str) -> usize {
     let mut start = size / 2 - dim_pocket / 2;
     let mut end = size / 2 + dim_pocket / 2;
 
-    parsed_state.into_iter().enumerate().for_each(|(x, vec)| {
-        vec.into_iter().enumerate().for_each(|(y, b)| {
-            pocket[start + dim_pocket / 2][start + dim_pocket / 2][x + start][y + start] = b;
+    parsed_state.into_iter().enumerate().for_each(|(y, vec)| {
+        vec.into_iter().enumerate().for_each(|(x, b)| {
+            pocket[start + dim_pocket / 2][start + dim_pocket / 2][y + start][x + start] = b;
         })
     });
 

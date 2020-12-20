@@ -10,6 +10,7 @@ dependencies = [
  "lazy_static",
  "lexical",
  "regex",
+ "regex-macro",
  "ring-algorithm",
  "serde_scan",
 ]
@@ -163,6 +164,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "once_cell"
+version = "1.5.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "13bd41f508810a131401606d54ac32a467c97172d74ba7662562ebba5ad07fa0"
+
+[[package]]
 name = "proc-macro2"
 version = "1.0.24"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -190,6 +197,16 @@ dependencies = [
  "memchr",
  "regex-syntax",
  "thread_local",
+]
+
+[[package]]
+name = "regex-macro"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "34afee392f63f278b9b655a57837c1cca48344de310c6b03f62cd73e219cb1c9"
+dependencies = [
+ "once_cell",
+ "regex",
 ]
 
 [[package]]

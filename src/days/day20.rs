@@ -130,7 +130,7 @@ fn border_map(tiles: impl IntoIterator<Item = Tile>) -> HashMap<Vec<char>, Vec<u
     })
 }
 
-fn all_border_positions(tiles: &Vec<Tile>) -> HashMap<(Position, Vec<char>), Vec<Tile>> {
+fn all_border_positions(tiles: &[Tile]) -> HashMap<(Position, Vec<char>), Vec<Tile>> {
     tiles.iter().fold(HashMap::new(), |mut acc, tile| {
         let original_tile = tile.clone();
         for f in [|tile: &Tile| tile.clone(), Tile::flip].iter() {

@@ -19,7 +19,7 @@ path = "src/main.rs"
 [dependencies]
 aoc-runner = "0.3.0"
 aoc-runner-derive = "0.3.0"
-itertools = "0.10.1"
+itertools = "0.10.3"
 lazy_static = "1.4.0"
 lexical = "6.0.1"
 regex = "1.5.4"

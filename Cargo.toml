@@ -23,7 +23,7 @@ itertools = "0.10.3"
 lazy_static = "1.4.0"
 lexical = "6.0.1"
 regex = "1.5.4"
-regex-macro = "0.1.1"
+regex-macro = "0.2.0"
 ring-algorithm = "0.4.0"
 serde_scan = "0.4.1"
 

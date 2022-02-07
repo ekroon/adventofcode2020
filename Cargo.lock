@@ -248,9 +248,9 @@ checksum = "f497285884f3fcff424ffc933e56d7cbca511def0c9831a7f9b5f6153e3cc89b"
 
 [[package]]
 name = "ring-algorithm"
-version = "0.4.0"
+version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1a646d49c08f03fa9f2a760a9e54bb78b3f451b253437d42e543ab7428974ccc"
+checksum = "d784b9616c68a0669d7a44adf1076c25c4041c2e083056830ec1b07d69c8b3c5"
 dependencies = [
  "num-bigint",
  "num-traits",

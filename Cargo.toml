@@ -24,6 +24,6 @@ lazy_static = "1.4.0"
 lexical = "6.1.1"
 regex = "1.7.2"
 regex-macro = "0.2.0"
-ring-algorithm = "0.6.1"
+ring-algorithm = "0.7.0"
 serde_scan = "0.4.1"
 

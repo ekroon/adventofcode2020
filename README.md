@@ -7,4 +7,4 @@
 * `cargo aoc`
 
 ## Benchmark results
-Published [here](https://ekroon.github.io/adventofcode2020/benchmark-results/report/index.html)
+Published [here](https://ekroon.github.io/adventofcode2020/report/)
